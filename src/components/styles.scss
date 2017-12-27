@@ -1,0 +1,85 @@
+.apptsx {
+  background: Gainsboro;
+  height: 100vh;
+  overflow: auto;
+
+  .limitedWidthContainer {
+    margin: 200px 0 0 200px;
+    width: 400px;
+    height: 800px;
+  }
+
+  .pageStack {
+    background-color: blue;
+
+    // This hides the scrollbar.
+    // It needs to be tested in different browsers
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    .page {
+      // We need to position the page element as absolute so that we can stack the pages
+      // on top of each other.
+      position: absolute;
+
+      // Stack the pages
+      :nth-of-type(1) {
+        z-index: 2;
+      }
+
+      :nth-of-type(2) {
+        z-index: 1;
+      }
+
+      // This is required so that the `pageEmptySpace` element will wrap to the left
+      // of the `pageContent` element. With `direction: ltr` elements wrap to the right.
+      direction: rtl;
+
+      // Elements with position absolute lose their browser-calculated width, that's why
+      // we have to explicitly set its width.
+      width: 400px;
+
+      // `pageContent` and `pageEmptySpace` are `display: inline-block`, but without
+      // `white-space: nowrap` on their container, i.e. `page`, when they get squeezed for
+      // space, they don't trigger the overflow of the parent. Instead they drop to the next
+      // line available below. That's why `white-space: nowrap` is required.
+      white-space: nowrap;
+
+      // This allows us to scroll along the x-axis
+      overflow-x: scroll;
+
+      .pageContent,
+      .pageEmptySpace {
+        width: 400px;
+        height: 800px;
+
+        // This causes these elements to arrange inline instead of multiline.
+        display: inline-block;
+
+        // Without this, the elements generate extra pixels below themselves. WTF?
+        vertical-align: top;
+
+        // Since we need to set `direction: rtl` above, we need to reset it back to
+        // `direction: ltr` here.
+        direction: ltr;
+      }
+
+      &.color2 {
+        .pageContent {
+          background: HotPink;
+        }
+
+        .pageEmptySpace {
+          background: transparent;
+        }
+      }
+
+      &.color1 {
+        .pageContent {
+          background: DarkCyan;
+        }
+      }
+    }
+  }
+}
