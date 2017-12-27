@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./lib/",
+    "target": "es5",
+    "sourceMap": true,
+    "declaration": true,
+    "jsx": "react",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
