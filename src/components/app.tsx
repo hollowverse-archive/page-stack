@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { PageStack, Page } from './PageStack/PageStack';
 import { pullAt } from 'lodash';
+import * as TransitionGroup from 'react-transition-group/TransitionGroup';
+import Transition from 'react-transition-group/Transition';
 
 import './styles.scss';
 
@@ -57,22 +59,26 @@ export class App extends React.Component<any, any> {
   };
 
   handlePop = (index: number) => {
-    pullAt(this.state.pages, index);
+    const pages = this.state.pages.slice();
+
+    pages.splice(index, 1);
 
     this.setState({
-      pages: this.state.pages,
+      pages,
     });
   };
 
   handlePush = () => {
-    this.state.pages.push({
+    const pages = this.state.pages.slice();
+
+    pages.push({
       props: {
         color: randomColorGenerator(),
       },
     });
 
     this.setState({
-      pages: this.state.pages,
+      pages,
     });
   };
 
