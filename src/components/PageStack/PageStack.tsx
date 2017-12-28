@@ -7,6 +7,8 @@ const { tween } = require('shifty');
 
 import './PageStack.scss';
 
+const DURATION = 200;
+
 export class Page extends React.Component<any, any> {
   private pageRef: HTMLDivElement | null;
   private pageContentRef: HTMLDivElement | null;
@@ -19,109 +21,50 @@ export class Page extends React.Component<any, any> {
     this.pageContentRef = ref;
   };
 
-  // componentWillMount() {
-  //   console.log('this.pageRef', this.pageRef);
-  // }
+  animate = (animationType: 'in' | 'out') => {
+    const pageRef = this.pageRef as HTMLDivElement;
+    const pageContentRef = this.pageContentRef as HTMLDivElement;
 
-  exit = (element: HTMLElement) => {
-    console.log('element', element);
-
-    const { pageRef, pageContentRef } = this;
-
-    if (pageRef && pageContentRef) {
-      if (this.props.index !== 0) {
-        const {
-          top,
-          left,
-          right,
-          bottom,
-          width,
-          height,
-        } = pageContentRef.getBoundingClientRect();
-
-        tween({
-          from: { x: pageRef.scrollLeft },
-          to: { x: 0 },
-          duration: 200,
-          easing: 'easeOutQuad',
-          step: (state: any) => {
-            // console.log('state.x', state.x);
-            pageRef.scrollLeft = state.x;
-          },
-        });
+    if (this.props.index !== 0) {
+      if (animationType === 'in') {
+        pageRef.scrollLeft = 0;
       }
+
+      const { width } = pageContentRef.getBoundingClientRect();
+
+      tween({
+        from: { x: pageRef.scrollLeft },
+        to: { x: animationType === 'out' ? 0 : width },
+        duration: DURATION,
+        easing: 'easeOutQuad',
+        step: (state: any) => {
+          pageRef.scrollLeft = state.x;
+        },
+      });
     }
   };
 
-  componentDidMount() {
-    const { pageRef, pageContentRef } = this;
+  animateIn = () => {
+    this.animate('in');
+  };
 
-    if (pageRef && pageContentRef) {
-      if (this.props.index !== 0) {
-        pageRef.style.display = 'block';
-        pageRef.scrollLeft = 0;
-
-        const {
-          top,
-          left,
-          right,
-          bottom,
-          width,
-          height,
-        } = pageContentRef.getBoundingClientRect();
-
-        tween({
-          from: { x: pageRef.scrollLeft },
-          to: { x: width },
-          duration: 200,
-          easing: 'easeOutQuad',
-          step: (state: any) => {
-            pageRef.scrollLeft = state.x;
-          },
-        });
-      }
-
-      // pageRef.addEventListener(
-      //   'scroll',
-      //   debounce(event => {
-      //     if (pageContentRef) {
-      //       const {
-      //         top,
-      //         left,
-      //         right,
-      //         bottom,
-      //         width,
-      //         height,
-      //       } = pageContentRef.getBoundingClientRect();
-
-      //       console.log(
-      //         'top, left, right, bottom, width, height',
-      //         '\n',
-      //         top,
-      //         left,
-      //         right,
-      //         bottom,
-      //         width,
-      //         height,
-      //       );
-      //     }
-      //   }, 500),
-      // );
-    }
-  }
+  animateOut = () => {
+    this.animate('out');
+  };
 
   render() {
     const props = this.props;
 
     return (
-      <Transition timeout={300} {...props} onExit={this.exit}>
-        {(state: any) => {
+      <Transition
+        {...props}
+        timeout={DURATION}
+        onEnter={this.animateIn}
+        onExit={this.animateOut}
+      >
+        {() => {
           return (
-            <div
-              className="page"
-              ref={this.getRef}
-              style={{ display: props.index === 0 ? 'block' : 'none' }}
-            >
+            <div className="page" ref={this.getRef}>
               <div
                 className="pageContent"
                 style={{ background: props.color }}
@@ -144,25 +87,6 @@ export class Page extends React.Component<any, any> {
 }
 
 export class PageStack extends React.Component<any, any> {
-  // private domNode: HTMLDivElement | null;
-
-  // componentDidMount() {
-  //   let height;
-  //   let width;
-
-  //   if (this.domNode) {
-  //     const { parentElement } = this.domNode;
-
-  //     if (parentElement) {
-  //       height = parentElement.offsetHeight;
-  //       width = parentElement.offsetWidth;
-  //     }
-  //   }
-
-  //   console.log('height', height);
-  //   console.log('width', width);
-  // }
-
   render() {
     return (
       <div className="pageStack">

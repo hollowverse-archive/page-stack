@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { PageStack, Page } from './PageStack/PageStack';
-import { pullAt } from 'lodash';
-import * as TransitionGroup from 'react-transition-group/TransitionGroup';
-import Transition from 'react-transition-group/Transition';
 
 import './styles.scss';
 
