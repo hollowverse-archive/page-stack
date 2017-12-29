@@ -9,6 +9,24 @@
     // This hides the scrollbar.
     // It needs to be tested in different browsers
     ::-webkit-scrollbar {
+      background-color: transparent;
+      display: none;
+    }
+
+    ::-webkit-scrollbar-track {
+      //  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+      background-color: transparent;
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      background-color: transparent;
+      display: none;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      //  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: transparent;
       display: none;
     }
 

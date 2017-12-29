@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { PageStack, Page } from './PageStack/PageStack';
+import { PageStack } from './PageStack/PageStack';
+import { Page } from './PageStack/Page';
 
 import './styles.scss';
 
-const randomColorGenerator = () => {
+const colorGenerator = (index: number) => {
   return [
     'Red',
     'Green',
@@ -20,12 +21,11 @@ const randomColorGenerator = () => {
     'Brown',
     'Beige',
     'Maroon',
-    'Mint',
     'Olive',
     'Coral',
     'Navy',
     'Grey',
-  ][Math.floor(Math.random() * 20)];
+  ][index];
 };
 
 export class App extends React.Component<any, any> {
@@ -36,7 +36,7 @@ export class App extends React.Component<any, any> {
       pages: [
         {
           props: {
-            color: randomColorGenerator(),
+            color: colorGenerator(0),
           },
         },
       ],
@@ -67,10 +67,11 @@ export class App extends React.Component<any, any> {
 
   handlePush = () => {
     const pages = this.state.pages.slice();
+    const color = colorGenerator(pages.length % 19);
 
     pages.push({
       props: {
-        color: randomColorGenerator(),
+        color,
       },
     });
 
