@@ -1,5 +1,4 @@
 import * as React from 'React';
-import { debounce } from 'lodash';
 import Transition from 'react-transition-group/Transition';
 import { Swipe } from './Swipe';
 const { tween } = require('shifty');
@@ -8,9 +7,6 @@ const DURATION = 200;
 
 export class Page extends React.Component<any, any> {
   private pageRef: HTMLDivElement | null;
-  private swipeDirection: 'left' | 'right' | 'none' = 'none';
-  private firstTouchMoveSnapshot: number | null;
-  private secondTouchMoveSnapshot: number | null;
   private swipe: Swipe;
 
   getRef = (ref: HTMLDivElement) => {
@@ -24,9 +20,7 @@ export class Page extends React.Component<any, any> {
 
     // When the component mounts, we disable swiping to keep things from moving
     // unintentionally
-    this.swipe.enableSwiping(false);
-
-    const { scrollLeft, scrollWidth } = pageRef;
+    // this.swipe.enableSwiping(false);
 
     if (this.props.index > 0) {
       this.swipe.onFinishedSwipingLeft(() => {
@@ -42,6 +36,10 @@ export class Page extends React.Component<any, any> {
       });
     }
   }
+
+  ensurePageIsSlidEitherAllTheWayInOrOut = () => {
+    return 'ok';
+  };
 
   handleEnter = () => {
     if (this.props.index !== 0) {
