@@ -1,3 +1,8 @@
+html {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
 .apptsx {
   background: Gainsboro;
   height: 100vh;
